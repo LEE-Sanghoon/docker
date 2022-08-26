@@ -1,0 +1,15 @@
+# 버전 지정 (현재 메이저 최신버전))
+version: '3.3'
+
+# 서비스 정의
+services:
+
+  dummy:
+    container_name: dummy
+    build:
+      context: .
+      dockerfile: Dockerfile.dummy
+    stdin_open: true
+    tty: true
+    environment:
+      - ROS_DISTRO=noetic

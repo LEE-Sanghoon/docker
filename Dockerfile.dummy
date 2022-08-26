@@ -1,0 +1,25 @@
+ARG HOME=/root
+
+FROM ubuntu:focal
+
+# "debconf: delaying package configuration, since apt-utils is not installed"
+# ARG DEBIAN_FRONTEND=noninteractive 
+# RUN apt-get update \
+#     && apt-get upgrade \
+#     && apt-get install -q -y --no-install-recommends apt-utils
+
+# timezone 설정
+RUN echo 'Etc/UTC' > /etc/timezone && \
+    ln -s /usr/share/zoneinfo/Asia/Seoul /etc/localtime && \
+    apt-get update && \
+    apt-get install -q -y --no-install-recommends \
+            tzdata \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV ROS_DISTRO=noetic
+
+USER root
+WORKDIR ${HOME}
+
+ENTRYPOINT service ssh restart && bash
+CMD ["/bin/bash"]
